@@ -28,4 +28,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('category/', include('blogs.urls')),
     path('blogs/<slug:slug>/', BlogsView.blogs, name='blogs'),
+    # Search endpoint
+    path('search/', BlogsView.search, name='search'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
