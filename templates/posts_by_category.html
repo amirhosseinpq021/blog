@@ -17,6 +17,7 @@
                             <small class="mb-1 text-muted">{{ post.created_at | timesince }} ago
                                 | {{ post.author }}</small>
                             <p class="card-text">{{ post.short_description | truncatewords:25 }}</p>
+                            <a href="{% url 'blogs' post.slug %}"><button type="button" class="btn btn-secondary btn-lg">Read More</button></a>
                         </div>
                     </div>
                 </div>
