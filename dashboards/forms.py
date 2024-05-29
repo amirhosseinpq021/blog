@@ -9,3 +9,8 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = '__all__'
 
+
+class BlogPostsForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ('title', 'category', 'featured_image', 'short_description', 'blog_body', 'status', 'is_featured')
