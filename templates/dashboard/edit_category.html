@@ -2,24 +2,28 @@
 
 
 {% block content %}
-{% load crispy_forms_tags %}
+    {% load crispy_forms_tags %}
 
-<div class="row">
-    <!-- Left sidebar -->
-    <!-- load the sidebar here -->
-    {% include 'dashboard/sidebar.html' %}
+    <div class="row">
+        <!-- Left sidebar -->
+        <!-- load the sidebar here -->
+        {% include 'dashboard/sidebar.html' %}
 
-    <!-- Right side content -->
-    <div class="col-md-9">
-        <h2>Edit Category</h2>
+        <!-- Right side content -->
+        <div class="col-md-9">
+            {% if user.is_staff %}
 
-        <form action="{% url 'edit_category' category.id %}" method="POST" style="width:500px;">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <button type="submit" class="btn btn-warning">Submit</button>
-        </form>
-        <br>
+                <h2>Edit Category</h2>
+
+                <form action="{% url 'edit_category' category.id %}" method="POST" style="width:500px;">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </form>
+            {% endif %}
+
+            <br>
+        </div>
     </div>
-</div>
 
 {% endblock %}

@@ -12,52 +12,56 @@
         <!--right sidebar-->
 
         <div class="col-md-9">
-            <h1>All Posts</h1>
-            <a href="{% url 'add_post' %}" class="btn btn-dark text-light float-right mb-2">Add New</a>
-            <table class="table table-hover">
-                <thead>
-                <tr>
+            {% if user.is_staff %}
 
-
-                    <th scope="col">number</th>
-                    <th scope="col">title</th>
-                    <th scope="col">category</th>
-                    <th scope="col">author</th>
-                    <th scope="col">status</th>
-                    <th scope="col">is_features</th>
-
-
-                </tr>
-                </thead>
-                <tbody>
-
-                {% for all_post in post %}
+                <h1>All Posts</h1>
+                <a href="{% url 'add_post' %}" class="btn btn-dark text-light float-right mb-2">Add New</a>
+                <table class="table table-hover">
+                    <thead>
                     <tr>
 
-                        <td>{{ forloop.counter }}</td>
-                       <td> <a href="{% url 'blogs' all_post.slug %}">{{ all_post.title }}</a></td>
-                        <td>{{ all_post.category }}</td>
-                        <td>{{ all_post.author }}</td>
-                        <td>{{ all_post.status }}</td>
-                        <td>{% if all_post.is_featured == True %}
-                            <i class="fa fa-check text-success"></i>
-                        {% else %}
-                            <i class="fa fa-times text-danger"></i>
-                        
-                        {% endif %} </td>
 
-                        <td>
-                            <a href="{% url 'edit_post' all_post.id %}"><i class="fa fa-edit text-success"></i></a>
-                            &nbsp;
-                            <a href="{% url 'delete_Post' all_post.id %}"><i class="fa fa-trash text-danger"></i></a>
-                        </td>
+                        <th scope="col">number</th>
+                        <th scope="col">title</th>
+                        <th scope="col">category</th>
+                        <th scope="col">author</th>
+                        <th scope="col">status</th>
+                        <th scope="col">is_features</th>
+
 
                     </tr>
-                {% endfor %}
+                    </thead>
+                    <tbody>
 
-                </tbody>
+                    {% for all_post in post %}
+                        <tr>
 
-            </table>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'blogs' all_post.slug %}">{{ all_post.title }}</a></td>
+                            <td>{{ all_post.category }}</td>
+                            <td>{{ all_post.author }}</td>
+                            <td>{{ all_post.status }}</td>
+                            <td>{% if all_post.is_featured == True %}
+                                <i class="fa fa-check text-success"></i>
+                            {% else %}
+                                <i class="fa fa-times text-danger"></i>
+
+                            {% endif %} </td>
+
+                            <td>
+                                <a href="{% url 'edit_post' all_post.id %}"><i class="fa fa-edit text-success"></i></a>
+                                &nbsp;
+                                <a href="{% url 'delete_Post' all_post.id %}"><i
+                                        class="fa fa-trash text-danger"></i></a>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+            {% endif %}
 
         </div>
 

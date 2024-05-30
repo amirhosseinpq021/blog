@@ -9,6 +9,10 @@ from django.shortcuts import get_object_or_404
 
 from django.template.defaultfilters import slugify
 
+from django.contrib.auth.models import User
+
+from .forms import AddUserForm, EditUserForm
+
 
 # Create your views here.
 
@@ -106,7 +110,7 @@ def edit_post(request, pk):
         if form.is_valid():
             post = form.save()
             title = form.cleaned_data['title']
-            post.slug = slugify(title) + '-'+str(post.id)
+            post.slug = slugify(title) + '-' + str(post.id)
             post.save()
             return redirect('posts')
     form = BlogPostsForm(instance=post)
@@ -121,3 +125,52 @@ def delete_post(request, pk):
     post = get_object_or_404(Blog, pk=pk)
     post.delete()
     return redirect('posts')
+
+
+# ____________________________________________________________________________________________________________________
+
+# read
+def users(request):
+    all_users = User.objects.all()
+    context = {
+        'users': all_users,
+    }
+    return render(request, 'dashboard/users.html', context)
+
+
+# creat
+def add_user(request, form=None):
+    if request.method == 'POST':
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = AddUserForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'dashboard/add_user.html', context)
+
+
+# update
+def edit_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = EditUserForm(instance=user)
+    context = {
+        'form': form,
+    }
+    return render(request, 'dashboard/edit_user.html', context)
+
+
+# delete
+def delete_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    user.delete()
+    return redirect('dashboard')
